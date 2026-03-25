@@ -15,7 +15,7 @@ from collections import OrderedDict
 from PIL import ImageFile
 import cv2
 from torch.distributed import is_available, get_world_size, is_initialized, get_rank, gather_object
-import albumentations.augmentations.functional as F
+from albumentations.augmentations.pixel.functional import gamma_transform as _gamma_transform
 from typing import Union, List, Optional, Dict, Any
 from warnings import warn
 
@@ -216,9 +216,13 @@ def preprocess(img, gamma=1., contrast=1., brightness=0., percentile=None, grays
         img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
 
     if gamma != 1.:
-        img = F.gamma_transform(img, gamma)
+        img = _gamma_transform(img, gamma)
     if contrast != 1.:
-        img = F.brightness_contrast_adjust(img, alpha=contrast, beta=brightness)
+        img = np.clip(
+            img.astype(np.float32) * contrast + brightness * np.mean(img),
+            0,
+            255,
+        ).astype(img.dtype)
     return img
 
 

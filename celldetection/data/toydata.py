@@ -31,7 +31,7 @@ def random_rectangle(image, mask, x, y, color, radius_range=(3, 28)):
     cv2.ellipse(tmp, (x, y), axes=(rh, rw), angle=angle, startAngle=0, endAngle=360, color=1, thickness=-1)
     c = cv2.findContours(tmp, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     c = c[0] if len(c) == 2 else c[1]
-    box = np.int0(cv2.boxPoints(cv2.minAreaRect(c[0])))
+    box = cv2.boxPoints(cv2.minAreaRect(c[0])).astype(np.intp)
     cv2.drawContours(image, [box], 0, color, -1)
     cv2.drawContours(mask, [box], 0, 1, -1)
     return image, mask
