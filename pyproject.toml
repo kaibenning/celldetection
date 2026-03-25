@@ -1,0 +1,72 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "CellDetection"
+version = "0.4.9"
+description = "Cell Detection with PyTorch."
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.8"
+authors = [
+    { name = "Eric Upschulte", email = "e.upschulte@fz-juelich.de" },
+]
+keywords = [
+    "cell", "detection", "object", "segmentation", "pytorch",
+    "cpn", "contour", "proposal", "network", "deep", "learning",
+    "unet", "fzj", "julich", "juelich", "ai",
+]
+classifiers = [
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Medical Science Apps.",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "numpy",
+    "matplotlib",
+    "scipy",
+    "scikit-image",
+    "opencv-python",
+    "torch>=2.0.0",
+    "torchvision",
+    "tensorboard",
+    "seaborn",
+    "tqdm",
+    "h5py",
+    "pillow",
+    "nvidia-ml-py",
+    "albumentations>=1.3.0",
+    "timm",
+    "segmentation-models-pytorch",
+    "pandas",
+    "pytorch_lightning",
+    "pyyaml",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=6.0"]
+
+[project.urls]
+Homepage = "https://celldetection.org"
+
+[project.scripts]
+cd-inference-cpn = "celldetection_scripts.cpn_inference:main"
+
+[tool.hatch.build.targets.wheel]
+packages = [
+    "celldetection",
+    "celldetection_scripts",
+]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 127
+
+[tool.ruff.lint]
+select = ["E", "F", "W"]
+ignore = ["E501"]

@@ -218,11 +218,7 @@ def preprocess(img, gamma=1., contrast=1., brightness=0., percentile=None, grays
     if gamma != 1.:
         img = _gamma_transform(img, gamma)
     if contrast != 1.:
-        img = np.clip(
-            img.astype(np.float32) * contrast + brightness * np.mean(img),
-            0,
-            255,
-        ).astype(img.dtype)
+        img = np.clip(img * contrast + brightness * img.mean(), 0, 255).astype(img.dtype)
     return img
 
 
